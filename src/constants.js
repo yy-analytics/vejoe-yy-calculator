@@ -17,7 +17,18 @@ export const COMPARISON_ADDRESSES = [
     {
         name: "Yield Yak",
         address: "0xe7462905B79370389e8180E300F58f63D35B725F",
-    }
+        webpage: "https://yieldyak.com/farms?tab=allFarms&platform=traderjoe&farmType=vejoe"
+    },
+    {
+        name: "Beefy",
+        address: "0x1f2a8034f444dc55f963fb5925a9b6eb744eee2c",
+        webpage: "https://app.beefy.com/#/"
+    },
+    {
+        name: "North Pole",
+        address: "0xf30e775240d4137daea097109fea882c406d61cc",
+        webpage: "https://northpole.money/#/vejoe"
+    },
 ];
 
 export const BOOSTED_MASTERCHEF_ABI = [
