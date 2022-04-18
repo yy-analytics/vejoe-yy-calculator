@@ -232,9 +232,11 @@ function FarmCard(props) {
         <Grid container spacing={2}>
           <Grid item xs={9}>
             <Grid item xs={12}>
+            <Tooltip title={'Pool ID: ' + props.farmData.poolID}>
               <Typography variant='h4'>
                 {props.farmData.name}
               </Typography>
+            </Tooltip>
             </Grid>
             <Grid container spacing={2}>
               {[
@@ -586,7 +588,7 @@ function App() {
     completeData = completeData.map(pool => (
       {
         ...pool,
-        poolAPR: POOL_FEE * pool.untrackedVolumeUSD24H * 365 / pool.poolTVL,
+        poolAPR: POOL_FEE * (pool.volumeUSD24H === 0 ? pool.untrackedVolumeUSD24H : pool.volumeUSD24H) * 365 / pool.poolTVL,
         joeAPR: joePerYearUSD * pool.allocPoint * (1 - pool.veJoeShareBp / 10000) / (pool.totalAllocPoint * pool.poolTVL),
         userTVL: Number((ZERO_18 + pool.users.find(user => user.address === userAddress).amount).replace(/(\d+)(\d{18})/, '$1.$2')) * pool.poolTVL / Number((ZERO_18 + pool.balance).replace(/(\d+)(\d{18})/, '$1.$2')),
         userJLPBalance: Number((ZERO_18 + pool.users.find(user => user.address === userAddress).amount).replace(/(\d+)(\d{18})/, '$1.$2')),
