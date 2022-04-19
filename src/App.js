@@ -202,6 +202,7 @@ function FarmCard(props) {
     let altBoostAPR = toggleAddLiquidity === 'move' ? comp.altBoostAPR : (altCompTVL === 0 ? 0 : altCompFactor * props.joePerYearUSD * (props.farmData.veJoeShareBp / 10000) * props.farmData.allocPoint / (props.farmData.totalAllocPoint * altTotalFactor * altCompTVL))
     // The line below is pretty complex as we have to take into account how the total factor changing will impact on alternative's boosted APRs
     let altAnnualGain = toggleAddLiquidity === 'move' ? comp.altAnnualGain : (altBoostAPR * Number(addLiquidity) + altUserBoostAPR * props.farmData.userTVL) - userBoostAPR * userTVL
+    let altTotalAPR = poolAPR + joeAPR + altBoostAPR
     return (
       {
         ...comp,
@@ -211,6 +212,7 @@ function FarmCard(props) {
         altTotalFactor: altTotalFactor,
         altBoostAPR: altBoostAPR,
         altAnnualGain: altAnnualGain,
+        altTotalAPR: altTotalAPR,
       }
     )
   })
@@ -232,11 +234,11 @@ function FarmCard(props) {
         <Grid container spacing={2}>
           <Grid item xs={9}>
             <Grid item xs={12}>
-            <Tooltip title={'Pool ID: ' + props.farmData.poolID}>
-              <Typography variant='h4'>
-                {props.farmData.name}
-              </Typography>
-            </Tooltip>
+              <Tooltip title={'Pool ID: ' + props.farmData.poolID}>
+                <Typography variant='h4'>
+                  {props.farmData.name}
+                </Typography>
+              </Tooltip>
             </Grid>
             <Grid container spacing={2}>
               {[
@@ -265,10 +267,21 @@ function FarmCard(props) {
                 </Grid>
               )
               )}
-              <Grid item xs={12}>
+              <Grid item xs={8}>
                 <Typography variant='body1' sx={{ color: 'yellow' }}>
                   Recommendation: {recommendation}
                 </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Grid container align="center">
+                  <Grid item xs={12}>
+                    <Tooltip title="Unstake LP tokens here, or add liquidity by following 'Get LP Tokens' on this page">
+                      <Button variant='contained' sx={{ bgcolor: 'button.traderjoe' }} href={`https://traderjoexyz.com/farm/${ethers.utils.getAddress(props.farmData.pair)}-${ethers.utils.getAddress(BOOSTED_MASTERCHEF_ADDRESS)}`} target="_blank">
+                        Trader Joe
+                      </Button>
+                    </Tooltip>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -388,7 +401,8 @@ function FarmCard(props) {
                                   </Grid>
                                   {[
                                     { label: 'Boost APR', value: percentageFormat(comp.altBoostAPR), toolTip: 'Factor: ' + parseFloat(comp.altCompFactor).toFixed(4) + ' Total factor: ' + parseFloat(comp.altTotalFactor).toFixed(4) },
-                                    { label: 'Annualised gains*', value: currencyFormat(comp.altAnnualGain), toolTip: '' },
+                                    { label: 'Annualised gains*', value: currencyFormat(comp.altAnnualGain), toolTip: '* see explanation note on fees' },
+                                    { label: 'Total APR*', value: percentageFormat(comp.altTotalAPR), toolTip: '* see explanation note on fees and APR vs APY' },
                                   ].map(item => (
                                     <Tooltip title={item.toolTip} key={item.label}>
                                       <Grid item xs={6}>
@@ -408,14 +422,11 @@ function FarmCard(props) {
                                     </Tooltip>
                                   ))}
                                   <Grid item xs={6}>
-                                    <Button variant='contained' sx={{ bgcolor: 'button.traderjoe' }} href={`https://traderjoexyz.com/farm/${ethers.utils.getAddress(props.farmData.pair)}-${ethers.utils.getAddress(BOOSTED_MASTERCHEF_ADDRESS)}`} target="_blank">
-                                      Trader Joe
-                                    </Button>
-                                  </Grid>
-                                  <Grid item xs={6}>
-                                    <Button variant='contained' sx={{ bgcolor: 'button.yieldyak' }} href={comp.webpage} target="_blank">
-                                      {comp.name}
-                                    </Button>
+                                    <Tooltip title="Deposit your LP tokens here">
+                                      <Button variant='contained' sx={{ bgcolor: 'button.yieldyak' }} href={comp.webpage} target="_blank">
+                                        {comp.name}
+                                      </Button>
+                                    </Tooltip>
                                   </Grid>
                                 </Grid>
                               </Paper>
