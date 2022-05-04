@@ -449,11 +449,8 @@ function FarmCard(props) {
                                               endIcon={
                                                 <Tooltip title={
                                                   <Typography>
+                                                    Yield Yak offers Vector veJOE boosted LP farms which auto-compound your returns into the underlying LP to save on time and gas fees.
                                                     {/* <span role="img" aria-label="flame">🔥🔥🔥</span> */}
-                                                    {/* <br/> */}
-                                                    You may be able to benefit from the veJoe boost of Vector whilst also compounding ALL of your rewards (the JOE tokens as well as the additional VTX tokens) by depositing your JLP tokens in the Vector LP farms on Yield Yak. We know it sounds complex (farming with Trader Joe via Vector via Yield Yak) but there are gains to be had, especially if your main focus is accruing more of the underlying pool assets!
-                                                    {/* <br/> */}
-                                                    <span role="img" aria-label="flame">🔥🔥🔥</span>
                                                   </Typography>
                                                 }>
                                                   <InfoIcon />
