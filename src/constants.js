@@ -29,6 +29,12 @@ export const COMPARISON_ADDRESSES = [
         address: "0xf30e775240d4137daea097109fea882c406d61cc",
         webpage: "https://northpole.money/#/vejoe"
     },
+    {
+        name: "Vector",
+        address: "0x0e25c07748f727d6cccd7d2711fd7bd13d13422d",
+        webpage: "https://vectorfinance.io/#/stake",
+        yy_webpage: "https://yieldyak.com/farms?platform=vector&farmType=lp"
+    },
 ];
 
 export const BOOSTED_MASTERCHEF_ABI = [

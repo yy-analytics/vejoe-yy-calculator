@@ -17,7 +17,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import InfoIcon from '@mui/icons-material/Info';
 import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -148,7 +150,8 @@ const theme = createTheme({
     traderjoe: 'rgb(242, 113, 106)',
     button: {
       traderjoe: 'rgb(242, 113, 106)',
-      yieldyak: '#553f77',
+      comp: '#553f77',
+      yieldyak: '#0EAB4D',
     }
   },
   typography: {
@@ -159,6 +162,9 @@ const theme = createTheme({
       color: '#F0F0F0',
     },
     body1: {
+      color: '#F0F0F0',
+    },
+    subtitle2: {
       color: '#F0F0F0',
     },
   }
@@ -219,12 +225,14 @@ function FarmCard(props) {
   let addRecommendation = extraComp.reduce((res, row) => row.altAnnualGain > res.altAnnualGain && row.compTVL > 0 ? row : res)
   let recommendation = (toggleAddLiquidity === 'move' ?
     (props.farmData.moveRecommendation.altAnnualGain > 0
-      ? 'Unstake your LP tokens from Trader Joe and deposit them with ' + props.farmData.moveRecommendation.name + ' for ~' + currencyFormat(props.farmData.moveRecommendation.altAnnualGain) + ' benefit.'
+      ? ('Best APR (before fees) if you moved your LP tokens is with ' + props.farmData.moveRecommendation.name + ' for ~' + currencyFormat(props.farmData.moveRecommendation.altAnnualGain) + ' benefit.'
+        + (props.farmData.moveRecommendation.name === 'Yield Yak' ? '' : ' DYOR on this platform before moving LP tokens.'))
       : (props.farmData.userTVL > 0 ? 'Keep your LP tokens staked with Trader Joe' : 'n/a')
     )
     : (addRecommendation.altAnnualGain > 0
-      ? 'Farm your new LP tokens with ' + addRecommendation.name + ' for ~' + currencyFormat(addRecommendation.altAnnualGain) + ' benefit.'
-      : (addLiquidity > 0 ? 'Farm your LP tokens with Trader Joe directly' : 'Enter additional liquidity to get recommendation')
+      ? ('Best APR (before fees) for your new LP tokens is with ' + addRecommendation.name + ' for ~' + currencyFormat(addRecommendation.altAnnualGain) + ' benefit.'
+        + (addRecommendation.name === 'Yield Yak' ? '' : ' DYOR on this platform before depositing.'))
+      : (addLiquidity > 0 ? 'Farm your LP tokens with Trader Joe directly' : 'Enter additional liquidity to see best APR (before fees).')
     )
   )
 
@@ -269,7 +277,7 @@ function FarmCard(props) {
               )}
               <Grid item xs={8}>
                 <Typography variant='body1' sx={{ color: 'yellow' }}>
-                  Recommendation: {recommendation}
+                  {recommendation}
                 </Typography>
               </Grid>
               <Grid item xs={4}>
@@ -396,7 +404,7 @@ function FarmCard(props) {
                                 <Grid container>
                                   <Grid item xs={12}>
                                     <Typography variant='body1'>
-                                      {toggleAddLiquidity == 'move' ? 'If you move your LPs:' : 'If you add new liquidity:'}
+                                      {toggleAddLiquidity === 'move' ? 'If you move your LPs:' : 'If you add new liquidity:'}
                                     </Typography>
                                   </Grid>
                                   {[
@@ -422,11 +430,45 @@ function FarmCard(props) {
                                     </Tooltip>
                                   ))}
                                   <Grid item xs={6}>
-                                    <Tooltip title="Deposit your LP tokens here">
-                                      <Button variant='contained' sx={{ bgcolor: 'button.yieldyak' }} href={comp.webpage} target="_blank">
-                                        {comp.name}
-                                      </Button>
-                                    </Tooltip>
+                                    <Grid container align="center" spacing={1}>
+                                      <Grid item xs={12}>
+                                        <Tooltip title="Deposit your LP tokens here">
+                                          <Button variant='contained' sx={{ bgcolor: 'button.comp' }} href={comp.webpage} target="_blank">
+                                            {comp.name}
+                                          </Button>
+                                        </Tooltip>
+                                      </Grid>
+                                      {
+                                        comp.yy_webpage && (
+                                          <Grid item xs={12}>
+                                            <Button
+                                              variant='contained'
+                                              sx={{ bgcolor: 'button.yieldyak' }}
+                                              href={comp.yy_webpage}
+                                              target="_blank"
+                                              endIcon={
+                                                <Tooltip title={
+                                                  <Typography>
+                                                    {/* <span role="img" aria-label="flame">🔥🔥🔥</span> */}
+                                                    {/* <br/> */}
+                                                    You may be able to benefit from the veJoe boost of Vector whilst also compounding ALL of your rewards (the JOE tokens as well as the additional VTX tokens) by depositing your JLP tokens in the Vector LP farms on Yield Yak. We know it sounds complex (farming with Trader Joe via Vector via Yield Yak) but there are gains to be had, especially if your main focus is accruing more of the underlying pool assets!
+                                                    {/* <br/> */}
+                                                    <span role="img" aria-label="flame">🔥🔥🔥</span>
+                                                  </Typography>
+                                                }>
+                                                  <InfoIcon />
+                                                </Tooltip>
+                                              }
+                                            >
+                                              <Tooltip title="Deposit your LP tokens here">
+                                                <Typography variant="button">
+                                                  Yield Yak
+                                                </Typography>
+                                              </Tooltip>
+                                            </Button>
+                                          </Grid>)
+                                      }
+                                    </Grid>
                                   </Grid>
                                 </Grid>
                               </Paper>
@@ -488,12 +530,13 @@ function App() {
     let addresses = COMPARISON_ADDRESSES.map(ca => ca.address.toLowerCase())
     const userAddress = ethers.utils.isAddress(chosenAddress) ? ethers.utils.getAddress(chosenAddress).toLowerCase() : ""
     addresses.push(userAddress)
-    const allAddresses = COMPARISON_ADDRESSES.map(x => ({ name: x.name, address: x.address.toLowerCase(), webpage: x.webpage }))
+    const allAddresses = COMPARISON_ADDRESSES.map(x => ({ name: x.name, address: x.address.toLowerCase(), webpage: x.webpage, yy_webpage: x.yy_webpage }))
     allAddresses.push(
       {
         name: 'User',
         address: userAddress,
         webpage: '',
+        yy_webpage: '',
       }
     )
 
@@ -609,6 +652,7 @@ function App() {
           user => ({
             name: user.name,
             webpage: user.webpage,
+            yy_webpage: user.yy_webpage,
             compTVL: Number((ZERO_18 + user.amount).replace(/(\d+)(\d{18})/, '$1.$2')) * pool.poolTVL / Number((ZERO_18 + pool.balance).replace(/(\d+)(\d{18})/, '$1.$2')),
             compJLPBalance: Number((ZERO_18 + user.amount).replace(/(\d+)(\d{18})/, '$1.$2')),
             compVeJoeBalance: Number(user.veJoeBalance),
@@ -689,7 +733,24 @@ function App() {
         <Grid container spacing={2} align="center" sx={{ height: '100%', }}>
           <Grid container item alignItems="center">
             <Grid item xs={12} sm={6}>
-              <Typography variant="h4">Liquidity Optimiser - veJOE boosted farms</Typography>
+              <Grid container alignItems="center">
+                <Grid item xs={2} sm={1}>
+                  <IconButton href="https://yieldyak.com/farms?tab=allFarms&platform=traderjoe&farmType=vejoe" target="_blank">
+                    <Avatar src="https://yieldyak.com/static/favicon/favicon-96x96.png" >
+                    </Avatar>
+                  </IconButton>
+                </Grid>
+                <Grid item xs={10} sm={11}>
+                  <Grid container alignItems="center" spacing={1}>
+                    <Grid item xs={12}>
+                      <Typography variant="h4">Liquidity Optimiser - veJOE boosted farms</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="subtitle2">A Yield Yak community product</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
@@ -788,7 +849,7 @@ function App() {
                     <strong>Move Liquidity</strong> - Figuring out what you should do is not as simple as just comparing the boost APR you currently receive against the boost APR that other options
                     (e.g. Yield Yak) currently receive. Whilst moving liquidity from Trader Joe (direct) to Trader Joe (via Yield Yak) will not have any impact on the Pool APR or
                     the Joe APR, it does affect the Boosted APR, though the smaller your holding, the less of an impact this will have. A full explanation of the calculation for
-                    veJOE boosted rewards can be found in the Trader Joe <a href="https://docs.traderjoexyz.com/main/trader-joe/staking/vejoe-staking" target="_blank" style={{ color: 'white' }}>docs</a>.
+                    veJOE boosted rewards can be found in the Trader Joe <a href="https://docs.traderjoexyz.com/main/trader-joe/staking/vejoe-staking" rel="noreferrer" target="_blank" style={{ color: 'white' }}>docs</a>.
                     This calculator figures out what the Boost APR would be in the event that you moved your liquidity (i.e. after you move it), which is a lot more useful than
                     simply knowing what the Boost APR is now. It compares this new Boost APR against what you get at the moment and then calculates the potential annualised gains
                     from making the switch.
@@ -798,7 +859,9 @@ function App() {
                       get even more veJOE over time). These are not accounted for in the figures shown. DYOR.</li>
                     <li>Having said that, these figures also do not account for the additional compounding effects that (e.g.) Yield Yak strategies make use of - these would push
                       the APY higher than shown and this, alongside slight differences in calculation methods, is a reason that the APY shown on the official websites may differ
-                      from the APR values shown here. For an explanation of how Yield Yak calculates APY, see <a href="https://yieldyak.medium.com/yield-yak-upgrades-farm-apy-calculations-d3fc247fbbf2" target="_blank" style={{ color: 'white' }}>here</a>.</li>
+                      from the APR values shown here. For an explanation of how Yield Yak calculates APY, see <a href="https://yieldyak.medium.com/yield-yak-upgrades-farm-apy-calculations-d3fc247fbbf2" target="_blank" rel="noreferrer" style={{ color: 'white' }}>here</a>.</li>
+                    <li>In some cases also, protocols are offering additional incentives in their own token for staking LP tokens on their platform. The values shown here are related to
+                      the rewards (in JOE) coming from Trader Joe only (i.e. Pool APR, Joe APR, and Boost APR). DYOR on other tokens which may make APRs for some platforms appear higher.</li>
                     <br />
                     <strong>Add liquidity</strong> - Using the add liquidity option shows what you would achieve if you added <strong>new</strong> liquidity ($ value of LP tokens) into
                     the various available options. In this case you will notice the Pool APR and Joe APR also decreasing slightly as the amount you add increases. The comparison done in
