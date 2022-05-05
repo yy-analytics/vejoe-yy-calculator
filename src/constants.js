@@ -35,6 +35,11 @@ export const COMPARISON_ADDRESSES = [
         webpage: "https://vectorfinance.io/#/stake",
         yy_webpage: "https://yieldyak.com/farms?platform=vector&farmType=lp"
     },
+    {
+        name: "SteakHut",
+        address: "0x1ab6b2f60a7e8da9d521cf8f90b2a5b5d314b3a6",
+        webpage: "https://www.steakhut.finance/protocol"
+    },
 ];
 
 export const BOOSTED_MASTERCHEF_ABI = [
