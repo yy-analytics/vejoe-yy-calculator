@@ -495,9 +495,9 @@ function App() {
   const [status, setStatus] = React.useState("");
   const [jpy, setJPY] = React.useState(0);
 
-  // React.useEffect(() => {
-  //   handleRefreshData();
-  // }, [])
+  React.useEffect(() => {
+    handleRefreshData();
+  }, [])
 
   const handleAddressChange = (event) => {
     setChosenAddress(event.target.value);
