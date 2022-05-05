@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/vejoe-yy-calculator/static/css/main.e6c13ad2.css",
-    "main.js": "/vejoe-yy-calculator/static/js/main.ee181e26.js",
+    "main.js": "/vejoe-yy-calculator/static/js/main.fabe12a9.js",
     "static/js/787.5128b446.chunk.js": "/vejoe-yy-calculator/static/js/787.5128b446.chunk.js",
     "index.html": "/vejoe-yy-calculator/index.html",
     "main.e6c13ad2.css.map": "/vejoe-yy-calculator/static/css/main.e6c13ad2.css.map",
-    "main.ee181e26.js.map": "/vejoe-yy-calculator/static/js/main.ee181e26.js.map",
+    "main.fabe12a9.js.map": "/vejoe-yy-calculator/static/js/main.fabe12a9.js.map",
     "787.5128b446.chunk.js.map": "/vejoe-yy-calculator/static/js/787.5128b446.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.ee181e26.js"
+    "static/js/main.fabe12a9.js"
   ]
 }
