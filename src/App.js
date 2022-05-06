@@ -810,62 +810,42 @@ function App() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography textAlign={'left'}>
-                    This calculator is intended to allow the user to optimise where they choose to stake / farm their LP tokens for Trader Joe veJOE-boosted farms.
+                    This calculator is intended to allow the user to optimise where they choose to farm their Trader Joe veJOE-boosted LPs.
                     <br /><br />
                     When it comes to farming LP tokens, there are many more options than just staking on Trader Joe itself and many auto-compounders (such as Yield Yak)
                     do the heavy lifting for you by selling the reward tokens for more LP tokens (i.e. adding more liquidity to the pool), so that in the end, you deposit
-                    JLP and exit with more JLP than you started with that you can then convert back to the underlying tokens on Trader Joe. There are a few options listed in
-                    this calculator. We cannot accept liability for any SC risks that arise from actions taken as a result of data shown in this calculator. DYOR.
+                    JLP and exit with more JLP than you started with. We cannot accept liability for any SC risks that arise from actions taken as a result of data shown in this calculator. DYOR.
                     <br /><br />
-                    There are already benefits to using an auto-compounder (as the name suggests, your rewards are automatically compounded which leads to higher overall returns), but what's
-                    particularly special about the veJOE boosted farms is that auto-compounders like Yield Yak can accrue huge amounts of veJOE, the likes of which are normally
-                    only in the possession of whales. This allows users with more modest holdings to also benefit from veJOE-related boosts (think of it as a whale with a large
-                    veJOE holding is adding your liquidity on your behalf, but you get to take advantage of their veJOE for the boost).
-                    <br /><br />
-                    From our analysis, it's not just users with modest holdings who stand to benefit though - there are many whales who would benefit greatly by moving their LP tokens,
-                    either because they hold no veJOE, or because they hold so little relative to their TVL that they would be better off just moving the TVL elsewhere - this calculator
-                    is also aimed to help them see what they could gain by making a switch. For an example of such a user, try running the calculator for this address: 0x46f41e39fACdD1eA0E957827ef01082cb96dD361
-                    (as of April 2022, potential gains of over $1m if they switched to Yield Yak from farming directly with Trader Joe).
-                    <br /><br />
-                    There are also mechanisms via which you can help the auto-compounders boost even further (e.g. yyJOE), but those are separate benefits that are not needed to
-                    boost your own TVL. To be crystal clear:
-                    <br /><br />
-                    <span style={{ color: 'red' }}>YOU DO NOT NEED TO DEPOSIT JOE FOR yyJOE IN ORDER TO BENEFIT FROM THE OVERALL
-                      BOOST THAT COMES FROM YIELD YAK'S veJOE ACCRUAL. YOU CAN SIMPLY DEPOSIT YOUR LP TOKENS WITH YIELD YAK AND GET THE BETTER BOOST.</span>
+                    There are already benefits to using an auto-compounder, but what's particularly special about the veJOE boosted farms is that yield optimisers like Yield Yak
+                    can accrue huge amounts of veJOE, the likes of which are normally only in the possession of whales. This allows users with more modest holdings to benefit from veJOE boosts.
                     <br /><br />
                     <strong>About the calculator</strong>
                     <br />
-                    Inputting your address above and clicking the "refresh data" button will retrieve the latest information available about your veJOE balance and your
-                    holdings in Trader Joe boosted farms (where you have staked directly with Trader Joe itself), as well as overall information about each of the boosted farms.
+                    Inputting your address above and clicking the "Refresh Data" button will retrieve the latest information available about your veJOE balance and your
+                    holdings in Trader Joe boosted farms (if you have staked directly with Trader Joe itself), as well as overall information about each of the boosted farms.
                     <br /><br />
-                    For each of the boosted farms it also calculates the relevant APR values, and for a selected list of third party options (including Yield Yak), it
-                    shows their TVL and veJOE accrual, and calculates the boost that those farms are receiving so that it's easy to compare against yours. it also calculates your
-                    potential gain if you moved your liquidity and the order these farms appear is determined by 1) Your potential gain, 2) Your TVL in the TJ farm, 3) The farm TVL.
-                    If you have liquidity with Trader Joe then the "Move LPs" option will be enabled by default, otherwise it will calculate for adding liquidity.
+                    The calculator displays APR values, and for a selected list of third party protocols shows their TVL and veJOE accrual - and calculates the boost that those farms are receiving.
+                    It also calculates your potential gain if you moved your liquidity. If you have liquidity with Trader Joe then the "Move LPs" option will be enabled by default, otherwise it will calculate for adding liquidity.
                     <br /><br />
-                    <strong>Move Liquidity</strong> - Figuring out what you should do is not as simple as just comparing the boost APR you currently receive against the boost APR that other options
-                    (e.g. Yield Yak) currently receive. Whilst moving liquidity from Trader Joe (direct) to Trader Joe (via Yield Yak) will not have any impact on the Pool APR or
-                    the Joe APR, it does affect the Boosted APR, though the smaller your holding, the less of an impact this will have. A full explanation of the calculation for
-                    veJOE boosted rewards can be found in the Trader Joe <a href="https://docs.traderjoexyz.com/main/trader-joe/staking/vejoe-staking" rel="noreferrer" target="_blank" style={{ color: 'white' }}>docs</a>.
-                    This calculator figures out what the Boost APR would be in the event that you moved your liquidity (i.e. after you move it), which is a lot more useful than
-                    simply knowing what the Boost APR is now. It compares this new Boost APR against what you get at the moment and then calculates the potential annualised gains
+                    <strong>Move Liquidity</strong> - Calculating the highest yield option is not as simple as just comparing the boost APR you currently receive against the boost APR that other options
+                    currently receive. Whilst moving liquidity from a native Trader Joe position to depositing it on a third party will not have any impact on the Pool APR or
+                    the TJ APR, it does affect the Boosted APR, though the smaller your holding, the less of an impact this will have. This calculator figures displays the Boost APR in the event that you moved your liquidity, which is more useful than
+                    simply knowing what the Boost APR is now. It compares this new Boost APR against what you currently receive and then calculates the potential annualised gains
                     from making the switch.
                     <br /><br />
                     *There are a few caveats here to be aware of:
                     <li>Fees - all of the options charge fees for auto-compounding, and in some cases they also charge a fee for these boosted farms specifically (so that they can
-                      get even more veJOE over time). These are not accounted for in the figures shown. DYOR.</li>
-                    <li>Having said that, these figures also do not account for the additional compounding effects that (e.g.) Yield Yak strategies make use of - these would push
-                      the APY higher than shown and this, alongside slight differences in calculation methods, is a reason that the APY shown on the official websites may differ
-                      from the APR values shown here. For an explanation of how Yield Yak calculates APY, see <a href="https://yieldyak.medium.com/yield-yak-upgrades-farm-apy-calculations-d3fc247fbbf2" target="_blank" rel="noreferrer" style={{ color: 'white' }}>here</a>.</li>
-                    <li>In some cases also, protocols are offering additional incentives in their own token for staking LP tokens on their platform. The values shown here are related to
-                      the rewards (in JOE) coming from Trader Joe only (i.e. Pool APR, Joe APR, and Boost APR). DYOR on other tokens which may make APRs for some platforms appear higher.</li>
+                      get even more veJOE over time). These are not accounted for in the figures shown.</li>
+                    <li>These figures do not account for the additional compounding effects that auto-compounders like Yield Yak make use of - these would push
+                      the APY higher than shown.</li>
+                    <li>In some cases, protocols are offering additional incentives in their own token for staking LP tokens on their platform. The values shown here are related to
+                      the rewards (in JOE) coming from Trader Joe only (i.e. Pool APR, Joe APR, and Boost APR).</li>
                     <br />
-                    <strong>Add liquidity</strong> - Using the add liquidity option shows what you would achieve if you added <strong>new</strong> liquidity ($ value of LP tokens) into
-                    the various available options. In this case you will notice the Pool APR and Joe APR also decreasing slightly as the amount you add increases. The comparison done in
+                    <strong>Add liquidity</strong> - Using the add liquidity option shows what you'd achieve if you added <strong>new</strong> liquidity ($ value of LP tokens) into
+                    the various available options. In this case you will notice the Pool APR and TJ APR also decreasing slightly as the amount you add increases. The comparison done in
                     this case is about where you should add this <strong>additional</strong> liquidity. Specifically it compares your annualised returns in the event that you add it to
                     your existing staked JLP tokens with Trader Joe versus if you added it via a third party option such as Yield Yak. This difference is what is shown for the annualised
-                    gain in this case. If you want to use the calculator "fresh" (i.e. not taking into account your existing veJOE or liquidity) then simply leave the address blank and
-                    refresh the data.
+                    gain in this case.
                     <br /><br />
                     <strong>Tip jar</strong>
                     <br />
