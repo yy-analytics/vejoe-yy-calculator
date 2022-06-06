@@ -47,6 +47,7 @@ import {
 
 import {
   LATEST_BLOCK_QUERY,
+  ALT_LATEST_BLOCK_QUERY,
   USER_VEJOE_QUERY,
   USER_BALANCE_QUERY,
   PAIRS_EXCHANGE_PRICES_QUERY,
@@ -513,12 +514,20 @@ function App() {
     // Start by getting the latest block for each of the subgraphs we will be using.
     setStatus("Getting latest block number...")
 
-    let latestBlockNumbers = await Promise.all([
-      'traderjoe-xyz/exchange',
-      'traderjoe-xyz/boosted-master-chef',
-      'traderjoe-xyz/vejoe',
-    ].map(sg => getGraphData(LATEST_BLOCK_API_URL, LATEST_BLOCK_QUERY, { subgraphName: sg })))
-    latestBlockNumbers = latestBlockNumbers.map(data => Number(data["indexingStatusForCurrentVersion"]["chains"][0]["latestBlock"]["number"]))
+    let latestBlockNumbers = [];
+    try {
+      latestBlockNumbers = await Promise.all([
+        'traderjoe-xyz/exchange',
+        'traderjoe-xyz/boosted-master-chef',
+        'traderjoe-xyz/vejoe',
+      ].map(sg => getGraphData(LATEST_BLOCK_API_URL, LATEST_BLOCK_QUERY, { subgraphName: sg })))
+      latestBlockNumbers = latestBlockNumbers.map(data => Number(data["indexingStatusForCurrentVersion"]["chains"][0]["latestBlock"]["number"]))
+    } catch {
+      latestBlockNumbers = await Promise.all([
+        EXCHANGE_API_URL, BOOSTED_API_URL, VEJOE_API_URL
+      ].map(apiURL => getGraphData(apiURL, ALT_LATEST_BLOCK_QUERY)));
+      latestBlockNumbers = latestBlockNumbers.map(data => data["_meta"]["block"]["number"]);
+    }
 
     const newLatestBlock = Math.min.apply(Math, latestBlockNumbers);
     setLatestBlock(newLatestBlock);

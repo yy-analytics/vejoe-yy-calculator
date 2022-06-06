@@ -13,6 +13,16 @@ query indexingStatusForCurrentVersion($subgraphName: String) {
 }
 `
 
+export const ALT_LATEST_BLOCK_QUERY = `
+query _meta {
+    _meta {
+      block {
+        number
+      }
+    }
+}
+`
+
 export const USER_VEJOE_QUERY = `
 query users($idList: [String], $latestBlock: Int) {
   users(first: 1000, where: {id_in: $idList}, block: {number: $latestBlock}) {
